@@ -1,0 +1,28 @@
+import Comments from '@/app/components/Comments'
+
+// Simulating fetching a post from an API or database
+const getPost = async (slug: string) => {
+  const posts = [
+    { id: 1, title: 'First Post', slug: 'first-post', content: 'This is the content of the first post' },
+    { id: 2, title: 'Second Post', slug: 'second-post', content: 'This is the content of the second post' },
+    { id: 3, title: 'Third Post', slug: 'third-post', content: 'This is the content of the third post' },
+  ]
+  return posts.find(post => post.slug === slug)
+}
+
+export default async function Post({ params }: { params: { slug: string } }) {
+  const post = await getPost(params.slug)
+
+  if (!post) {
+    return <div>Post not found</div>
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+      <div className="prose mb-8">{post.content}</div>
+      <Comments postId={post.id} />
+    </div>
+  )
+}
+
